@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token'));
 
-  axios.defaults.baseURL = 'http://localhost:8080/api';
+  axios.defaults.baseURL = 'http://localhost:8081/api';
 
   // Set up axios interceptor to include token in all requests
   useEffect(() => {
