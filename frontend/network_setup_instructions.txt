@@ -1,0 +1,44 @@
+# NETWORK ACCESS SETUP INSTRUCTIONS
+
+## Problem: Other laptops can't reach the React application
+
+## Solution Steps:
+
+### 1. Create the .env file
+- In the frontend directory (c:\Users\kodal\Desktop\Ethara\frontend\)
+- Create a new file named exactly: .env (no extension, just .env)
+- Copy the content from .env.example into this new .env file
+
+### 2. The .env file should contain:
+```
+DANGEROUSLY_DISABLE_HOST_CHECK=true
+HOST=0.0.0.0
+PORT=3000
+SKIP_PREFLIGHT_CHECK=true
+HTTPS=false
+SSL_CRT_FILE=
+SSL_KEY_FILE=
+GENERATE_SOURCEMAP=false
+BROWSER=none
+CI=false
+```
+
+### 3. Restart the React development server
+- Stop the current server (Ctrl+C)
+- Run: npm start
+
+### 4. Access URLs
+- From your computer: http://localhost:3000
+- From other laptops: http://10.65.65.179:3000
+
+### 5. Troubleshooting
+- Make sure Windows Firewall allows Node.js/React
+- Ensure all laptops are on the same network
+- Check if the IP address 10.65.65.179 is correct (run ipconfig in cmd)
+- Try using HTTP instead of HTTPS
+- Clear browser cache on other laptops
+
+### 6. Test from another laptop
+- Open browser on another laptop
+- Go to: http://10.65.65.179:3000
+- Should see the Team Task Manager login page
