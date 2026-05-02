@@ -1,0 +1,13 @@
+# Commands to add the data directory to git
+
+# Navigate to root directory
+cd ..
+
+# Add the data directory
+git add data/
+
+# Commit the data files
+git commit -m "adding persistent data files for mock server"
+
+# Push to remote
+git push origin main

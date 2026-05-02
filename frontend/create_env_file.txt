@@ -1,0 +1,14 @@
+# Create this file as .env in the frontend directory
+# This will allow network access for the React development server
+
+# Allow access from any host
+DANGEROUSLY_DISABLE_HOST_CHECK=true
+
+# Bind to all network interfaces
+HOST=0.0.0.0
+
+# Set the port
+PORT=3000
+
+# Skip host checking for development
+SKIP_PREFLIGHT_CHECK=true
