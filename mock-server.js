@@ -291,8 +291,9 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', message: 'Mock server is running' });
 });
 
-app.listen(port, () => {
-    console.log(`Mock server running at http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Mock server running at http://10.253.25.179:${port}`);
+    console.log(`Mock server also accessible at http://localhost:${port}`);
     console.log('Available endpoints:');
     console.log('- POST /api/auth/register');
     console.log('- POST /api/auth/login');

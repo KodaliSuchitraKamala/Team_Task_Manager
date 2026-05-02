@@ -356,9 +356,12 @@ const TaskCreationForm = ({ users, projects, selectedUser, onClose, onSuccess })
       
       await axios.post('/tasks', {
         ...formData,
-        status: 'TODO',
-        createdBy: 1, // Admin user ID
-        assignedTo: formData.assignedToId
+        status: 'TODO'
+      }, { 
+        params: { 
+          projectId: formData.projectId,
+          createdBy: 1 // Admin user ID
+        } 
       });
       
       onSuccess();
