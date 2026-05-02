@@ -10,6 +10,9 @@ const Tasks = () => {
   const [users, setUsers] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
+  const [showEvaluation, setShowEvaluation] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [evaluationCriteria, setEvaluationCriteria] = useState({});
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -48,6 +51,21 @@ const Tasks = () => {
     });
   };
 
+  const handleDeleteTask = async (taskId) => {
+    try {
+      const token = localStorage.getItem('token');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      
+      await axios.delete(`/tasks/${taskId}`);
+      
+      // Refresh tasks list
+      fetchData();
+    } catch (error) {
+      console.error('Error deleting task:', error);
+      alert('Failed to delete task. Please try again.');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -60,11 +78,10 @@ const Tasks = () => {
         setEditingTask(null);
       } else {
         // Create new task
-        await axios.post('/tasks', formData, { 
-          params: { 
-            projectId: formData.projectId,
-            createdBy: user?.id 
-          } 
+        await axios.post('/tasks', {
+          ...formData,
+          createdBy: user?.id,
+          assignedTo: formData.assignedToId || user?.id
         });
       }
       
@@ -241,6 +258,51 @@ const Tasks = () => {
                   <option value="IN_REVIEW">In Review</option>
                   <option value="COMPLETED">Completed</option>
                 </select>
+              </div>
+              
+              {/* Edit/Delete buttons for tasks created by this user */}
+              {task.createdBy === user?.id && (
+                <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem' }}>
+                  <button 
+                    className="btn" 
+                    onClick={() => {
+                      setEditingTask(task);
+                      setFormData({
+                        title: task.title,
+                        description: task.description,
+                        status: task.status,
+                        priority: task.priority,
+                        projectId: task.projectId || '',
+                        assignedToId: task.assignedTo || '',
+                        dueDate: task.dueDate || ''
+                      });
+                      setShowForm(true);
+                    }}
+                    style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', backgroundColor: '#3498db' }}
+                  >
+                    Edit
+                  </button>
+                  <button 
+                    className="btn btn-danger" 
+                    onClick={() => {
+                      if (window.confirm(`Are you sure you want to delete "${task.title}"?`)) {
+                        handleDeleteTask(task.id);
+                      }
+                    }}
+                    style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+              
+              {/* Show task creator info */}
+              <div style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: '#7f8c8d' }}>
+                {task.createdBy === user?.id ? (
+                  <span>📝 Created by you</span>
+                ) : (
+                  <span>📋 Assigned to you</span>
+                )}
               </div>
             </div>
           ))}

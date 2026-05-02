@@ -108,6 +108,39 @@ body {
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
+.user-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.user-stat-card {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.user-stat-card h4 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+}
+
+.user-stats p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.modal {
+  z-index: 1000;
+}
+
+.modal .card {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
