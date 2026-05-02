@@ -1,0 +1,79 @@
+# ADVANCED TROUBLESHOOTING FOR NETWORK ACCESS
+
+## Issue: Other laptops still can't access the React application
+
+## Step 1: Verify Your Current Setup
+1. Make sure you created the .env file in frontend directory
+2. Check that React server shows: "On Your Network: http://10.65.65.179:3000"
+3. Ensure both servers are running (mock server on 8081, React on 3000)
+
+## Step 2: Windows Firewall Configuration
+### Allow Node.js through Windows Firewall:
+1. Open Windows Defender Firewall
+2. Click "Allow an app or feature through Windows Defender Firewall"
+3. Click "Change settings" (admin rights required)
+4. Click "Allow another app..."
+5. Browse to: C:\Program Files\nodejs\node.exe
+6. Add with both "Private" and "Public" network types checked
+7. Repeat for npm if needed (usually in same directory)
+
+## Step 3: Network Verification Commands
+### On your computer (run in cmd):
+```
+ipconfig
+netstat -an | findstr :3000
+telnet 10.65.65.179 3000
+```
+
+### On other laptop (run in cmd):
+```
+ping 10.65.65.179
+telnet 10.65.65.179 3000
+nslookup 10.65.65.179
+```
+
+## Step 4: Alternative Configuration
+### Try this .env configuration instead:
+```
+DANGEROUSLY_DISABLE_HOST_CHECK=true
+HOST=0.0.0.0
+PORT=3000
+SKIP_PREFLIGHT_CHECK=true
+HTTPS=false
+WDS_SOCKET_HOST=0.0.0.0
+WDS_SOCKET_PORT=3000
+CHOKIDAR_USEPOLLING=true
+FAST_REFRESH=true
+```
+
+## Step 5: Browser Testing
+### On other laptop, try:
+1. Clear browser cache and cookies
+2. Try different browsers (Chrome, Firefox, Edge)
+3. Try incognito/private mode
+4. Disable browser security temporarily for testing
+
+## Step 6: Network Check
+### Verify both computers are on same network:
+1. Check WiFi network name is identical
+2. Check IP addresses are in same range (10.65.65.x)
+3. Try accessing other local services if available
+
+## Step 7: Alternative Port
+### Try different port (in .env):
+```
+PORT=3001
+```
+Then access: http://10.65.65.179:3001
+
+## Step 8: Check Proxy Settings
+### On other laptop, ensure no proxy is blocking:
+1. Browser settings → Network → Proxy
+2. System proxy settings
+3. VPN or firewall software
+
+## Step 9: Final Test
+### If still not working, try:
+1. Temporarily disable Windows Firewall (for testing only)
+2. Use different network (mobile hotspot)
+3. Check with IT/network administrator
