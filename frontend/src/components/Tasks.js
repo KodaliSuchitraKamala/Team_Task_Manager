@@ -51,6 +51,21 @@ const Tasks = () => {
     });
   };
 
+  const handleDeleteTask = async (taskId) => {
+    try {
+      const token = localStorage.getItem('token');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      
+      await axios.delete(`/tasks/${taskId}`);
+      
+      // Refresh tasks list
+      fetchData();
+    } catch (error) {
+      console.error('Error deleting task:', error);
+      alert('Failed to delete task. Please try again.');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
